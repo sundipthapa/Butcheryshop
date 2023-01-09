@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/user_model.dart';
+import '../../viewmodel/auth_viewmodel.dart';
+import '../../viewmodel/globalui_viewmodel.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -20,42 +25,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _obscureTextPassword = true;
   bool _obscureTextPasswordConfirm = true;
 
+  late GlobalUIViewModel _ui;
+  late AuthViewModel _auth;
+
+  @override
+  void initState() {
+    _ui = Provider.of<GlobalUIViewModel>(context, listen: false);
+    _auth = Provider.of<AuthViewModel>(context, listen: false);
+    super.initState();
+  }
+
+  void register() async {
+    if (_formKey.currentState == null || !_formKey.currentState!.validate()) {
+      return;
+    }
+    _ui.loadState(true);
+    try {
+      await _auth
+          .register(UserModel(
+              email: _emailController.text,
+              password: _passwordController.text,
+              phone: _phoneNumberController.text,
+              username: _usernameController.text,
+              name: _nameController.text))
+          .then((value) {
+        Navigator.of(context).pushReplacementNamed("/dashboard");
+      }).catchError((e) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message.toString())));
+      });
+    } catch (err) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(err.toString())));
+    }
+    _ui.loadState(false);
+  }
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
+    return Scaffold(
+      body: Form(
+        key: _formKey,
+        child: Center(
           child: SingleChildScrollView(
             child: Container(
-              height: 800,
               padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/b1.png",
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 38,
-                      fontFamily: 'WorkSansSemiBold',
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Image.asset(
+                    "assets/images/logo.png",
+                    height: 100,
+                    width: 100,
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   TextFormField(
                     controller: _nameController,
+                    validator: ValidateSignup.name,
                     keyboardType: TextInputType.name,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
@@ -82,6 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   TextFormField(
                     controller: _phoneNumberController,
+                    validator: ValidateSignup.phone,
                     keyboardType: TextInputType.phone,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
@@ -108,6 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   TextFormField(
                     controller: _usernameController,
+                    validator: ValidateSignup.username,
                     keyboardType: TextInputType.text,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
@@ -135,6 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
+                    validator: ValidateSignup.emailValidate,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
                         fontSize: 16.0,
@@ -161,6 +193,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _obscureTextPassword,
+                    validator: (String? value) => ValidateSignup.password(
+                        value, _confirmPasswordController),
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
                         fontSize: 16.0,
@@ -200,6 +234,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     controller: _confirmPasswordController,
                     obscureText: _obscureTextPasswordConfirm,
+                    validator: (String? value) =>
+                        ValidateSignup.password(value, _passwordController),
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
                         fontSize: 16.0,
@@ -249,7 +285,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           padding: MaterialStateProperty.all<EdgeInsets>(
                               EdgeInsets.symmetric(vertical: 20)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          register();
+                        },
                         child: Text(
                           "Sign Up",
                           style: TextStyle(fontSize: 20),
