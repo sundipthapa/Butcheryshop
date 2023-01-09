@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../viewmodel/auth_viewmodel.dart';
+import '../../viewmodel/globalui_viewmodel.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,6 +17,38 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
 
   bool _obscureTextPassword = true;
+
+  final _formKey = GlobalKey<FormState>();
+
+  void login() async {
+    if (_formKey.currentState == null || !_formKey.currentState!.validate()) {
+      return;
+    }
+    _ui.loadState(true);
+    try {
+      await _auth
+          .login(_emailController.text, _passwordController.text)
+          .then((value) {
+        Navigator.of(context).pushReplacementNamed('/dashboard');
+      }).catchError((e) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message.toString())));
+      });
+    } catch (err) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(err.toString())));
+    }
+    _ui.loadState(false);
+  }
+
+  late GlobalUIViewModel _ui;
+  late AuthViewModel _auth;
+  @override
+  void initState() {
+    _ui = Provider.of<GlobalUIViewModel>(context, listen: false);
+    _auth = Provider.of<AuthViewModel>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               EdgeInsets.symmetric(vertical: 20)),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed("/dashboard");
+                          login();
+                          // Navigator.of(context).pushNamed("/dashboard");
                         },
                         child: Text(
                           "Log In",
