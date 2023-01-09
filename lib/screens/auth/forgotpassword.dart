@@ -18,11 +18,32 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         body: Center(
           child: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.all(20),
+              height: 700,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/b1.png",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 10,
+                    height: 140,
+                  ),
+                  Text(
+                    "Forgot Password",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 38,
+                      fontFamily: 'WorkSansSemiBold',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                   TextFormField(
                     controller: _emailController,
@@ -48,7 +69,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 200,
                   ),
                   SizedBox(
                     width: double.infinity,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solo_flutter_project/screens/auth/forgotpassword.dart';
 import 'package:solo_flutter_project/screens/auth/login.dart';
 import 'package:solo_flutter_project/screens/auth/register.dart';
 import 'package:solo_flutter_project/screens/auth/splashscreen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         "/login": (BuildContext context) => LoginScreen(),
         "/splash": (BuildContext context) => SplashScreen(),
         "/register": (BuildContext context) => RegisterScreen(),
+        "/forget-password": (BuildContext context) => ForgetPasswordScreen(),
       },
     );
   }

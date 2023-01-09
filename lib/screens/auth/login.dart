@@ -115,9 +115,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      "Forgot password?",
-                      style: TextStyle(color: Colors.grey.shade800),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/forget-password");
+                      },
+                      child: Text(
+                        "Forgot password?",
+                        style: TextStyle(color: Colors.grey.shade800),
+                      ),
                     ),
                   ),
                   SizedBox(
