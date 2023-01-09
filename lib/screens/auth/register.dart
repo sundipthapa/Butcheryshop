@@ -71,13 +71,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Container(
+              height: 800,
               padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/b1.png",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
-                  Image.asset(
-                    "assets/images/logo.png",
-                    height: 100,
-                    width: 100,
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 38,
+                      fontFamily: 'WorkSansSemiBold',
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(
                     height: 10,
