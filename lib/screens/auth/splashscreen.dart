@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:solo_flutter_project/services/splash_services.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodel/auth_viewmodel.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -10,13 +11,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  SplashServices splashServices = SplashServices();
+  late AuthViewModel _authViewModel;
+
+  void checkLogin() async {
+    await Future.delayed(Duration(seconds: 2));
+    if (_authViewModel.user == null) {
+      Navigator.of(context).pushReplacementNamed("/login");
+    } else {
+      Navigator.of(context).pushReplacementNamed("/dashboard");
+    }
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    _authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+    checkLogin();
     super.initState();
-    splashServices.isLogin(context);
   }
 
   @override
@@ -26,7 +36,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset("assets/images/splash.gif"),
+              Image.asset("images/splash.gif"),
+              SizedBox(
+                height: 100,
+              ),
+              Text(
+                "Bazz",
+                style: TextStyle(fontSize: 22),
+              )
             ],
           ),
         ),

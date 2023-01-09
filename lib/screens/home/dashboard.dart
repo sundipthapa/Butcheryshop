@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../Account/accountscreen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -33,11 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SafeArea(
         child: PageView(
           controller: pageController,
-          children: <Widget>[
-            Container(),
-            Container(),
-            AccountScreen(),
-          ],
+          children: <Widget>[Container(), Container(), AccountScreen()],
           onPageChanged: _onPageChanged,
           physics: const NeverScrollableScrollPhysics(),
         ),
