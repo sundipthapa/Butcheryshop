@@ -140,7 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: MaterialStateProperty.all<EdgeInsets>(
                               EdgeInsets.symmetric(vertical: 20)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("/dashboard");
+                        },
                         child: Text(
                           "Log In",
                           style: TextStyle(fontSize: 20),
