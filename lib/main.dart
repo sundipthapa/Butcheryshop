@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solo_flutter_project/screens/auth/login.dart';
 import 'package:solo_flutter_project/screens/auth/register.dart';
+import 'package:solo_flutter_project/screens/auth/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const RegisterScreen(),
+      home: const SplashScreen(),
     );
   }
 }
