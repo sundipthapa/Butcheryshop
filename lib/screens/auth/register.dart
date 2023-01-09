@@ -322,3 +322,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
+
+class ValidateSignup {
+  static String? name(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Name is required";
+    }
+    return null;
+  }
+
+  static String? emailValidate(String? value) {
+    final RegExp emailValid = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (value == null || value.isEmpty) {
+      return "Email is required";
+    }
+    if (!emailValid.hasMatch(value)) {
+      return "Please enter a valid email";
+    }
+    return null;
+  }
+
+  static String? phone(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Phone number is required";
+    }
+    return null;
+  }
+
+  static String? username(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Username is required";
+    }
+    return null;
+  }
+
+  static String? password(String? value, TextEditingController otherPassword) {
+    if (value == null || value.isEmpty) {
+      return "Password is required";
+    }
+    if (value.length < 8) {
+      return "Password should be at least 8 character";
+    }
+    if (otherPassword.text != value) {
+      return "Please make sure both the password are the same";
+    }
+    return null;
+  }
+}
