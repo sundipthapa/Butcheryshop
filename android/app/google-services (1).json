@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "492265072858",
+    "project_id": "butcheryshop-8ecbc",
+    "storage_bucket": "butcheryshop-8ecbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492265072858:android:c0f40224ff0bab16921de3",
+        "android_client_info": {
+          "package_name": "com.example.solo_flutter_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492265072858-cfhmhcvbo4qvcie0sdvkleekj8kd2n35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG7AngH1Oxblij_ZNXunfhRJpr2BbsA7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492265072858-cfhmhcvbo4qvcie0sdvkleekj8kd2n35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
