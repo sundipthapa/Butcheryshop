@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../viewmodel/auth_viewmodel.dart';
+import '../../viewmodel/globalui_viewmodel.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -9,6 +13,31 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  void logout() async {
+    _ui.loadState(true);
+    try {
+      await _auth.logout().then((value) {
+        Navigator.of(context).pushReplacementNamed('/login');
+      }).catchError((e) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message.toString())));
+      });
+    } catch (err) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(err.toString())));
+    }
+    _ui.loadState(false);
+  }
+
+  late GlobalUIViewModel _ui;
+  late AuthViewModel _auth;
+  @override
+  void initState() {
+    _ui = Provider.of<GlobalUIViewModel>(context, listen: false);
+    _auth = Provider.of<AuthViewModel>(context, listen: false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -25,11 +54,19 @@ class _AccountScreenState extends State<AccountScreen> {
           SizedBox(
             height: 10,
           ),
+          Container(
+            child: Text(_auth.loggedInUser!.email.toString()),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           makeSettings(
               icon: Icon(Icons.logout),
               title: "Logout",
               subtitle: "Logout from this application",
-              onTap: () {}),
+              onTap: () {
+                logout();
+              }),
           makeSettings(
               icon: Icon(Icons.android),
               title: "Version",
