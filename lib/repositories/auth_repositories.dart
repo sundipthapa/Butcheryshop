@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/user_model.dart';
-import '../services/firebase_services.dart';
+import '../services/firebase_service.dart';
 
 class AuthRepository {
   CollectionReference<UserModel> userRef =
@@ -16,16 +16,18 @@ class AuthRepository {
     try {
       final response =
           await userRef.where("username", isEqualTo: user.username!).get();
-      if (response.size != 0) throw Exception("Username already exists");
-      UserCredential _uc = await FirebaseService.firebaseAuth
+      if (response.size != 0) {
+        throw Exception("Username already exists");
+      }
+      UserCredential uc = await FirebaseService.firebaseAuth
           .createUserWithEmailAndPassword(
               email: user.email!, password: user.password!);
 
-      user.id = _uc.user!.uid;
+      user.userId = uc.user!.uid;
       user.fcm = "";
       // insert into firestore user table
-      await FirebaseService.db.collection('users').add(user.toJson());
-      return _uc;
+      await userRef.add(user);
+      return uc;
     } catch (err) {
       rethrow;
     }
@@ -33,9 +35,9 @@ class AuthRepository {
 
   Future<UserCredential> login(String email, String password) async {
     try {
-      UserCredential _uc = await FirebaseService.firebaseAuth
+      UserCredential uc = await FirebaseService.firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      return _uc;
+      return uc;
     } catch (err) {
       rethrow;
     }
@@ -43,12 +45,11 @@ class AuthRepository {
 
   Future<UserModel> getUserDetail(String id) async {
     try {
-      final response = await userRef.where("id", isEqualTo: id).get();
+      final response = await userRef.where("user_id", isEqualTo: id).get();
 
       var user = response.docs.single.data();
       user.fcm = "";
       await userRef.doc(user.id).set(user);
-
       return user;
     } catch (err) {
       rethrow;
@@ -72,4 +73,25 @@ class AuthRepository {
       rethrow;
     }
   }
+
+  // Future<bool?> editEmail(
+  //     {required UserModel user, required String userId}) async {
+  //   try {
+  //     await userRef.doc(userId).update({
+  //       "email": user.email,
+  //     });
+  //   } catch (err) {
+  //     return false;
+  //   }
+  // }
+
+  // Future<bool?> editPassword(
+  //     {required UserModel user, required String userId}) async {
+  //   try {
+  //     final response = await userRef.doc(userId).set(user);
+  //     return true;
+  //   } catch (err) {
+  //     return false;
+  //   }
+  // }
 }

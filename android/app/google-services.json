@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "220858085972",
+    "project_id": "butcheryshop-87bc9",
+    "storage_bucket": "butcheryshop-87bc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220858085972:android:b12cb99a6dd950ea6fb3c1",
+        "android_client_info": {
+          "package_name": "com.example.meat_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220858085972-41qfjsfqpf8d17tkm7klbpogdflb8b8t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHGr7SmyPAIbEsWQ8awRvdSSroxgxU07w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220858085972-41qfjsfqpf8d17tkm7klbpogdflb8b8t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
